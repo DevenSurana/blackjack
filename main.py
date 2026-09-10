@@ -34,6 +34,8 @@ is_player_turn = True
 
 dealing_playerhand_1 = True
 
+compare_count = 0
+
 # functions
 def get_card_value(card):
     value = card[:-1]
@@ -101,6 +103,8 @@ def reset():
     amount_bet = 0
     amount_bet_2 = 0
 
+    compare_count = 0
+
 
 def bet():
     global money
@@ -130,8 +134,8 @@ def deal():
     global player_hand
     global dealer_hand
 
-    player_hand.append(deck.pop(11))
-    player_hand.append(deck.pop(11))
+    player_hand.append(deck.pop(6))
+    player_hand.append(deck.pop(18))
 
     #pick_random_card(player_hand)
     pick_random_card(dealer_hand)
@@ -274,71 +278,48 @@ def player_action():
 
             is_player_turn = False
 
-def compare(hand):
+def compare(hand, bet):
     global dealer_hand
     global player_hand
     global player_hand_2
     global amount_bet
     global amount_bet_2
     global money
+    global compare_count
 
-    player_total_1 = get_hand_value(player_hand)
-    player_total_2 = get_hand_value(player_hand_2)
+    compare_count += 1
+
+    total = get_hand_value(hand)
     dealer_total = get_hand_value(dealer_hand)
 
     print()
-    print("Hand 1:", *player_hand)
-    print("Amount Bet:", amount_bet)
-    if player_total_2 > 0:
-        print("Hand 2:", *player_hand_2)
-        print("Amount Bet:", amount_bet_2)
+    print("Hand comparing:", *hand)
+    print("Amount Bet:", bet)
+    print()
+    print("Dealer hand:", *dealer_hand)
     print()
 
-    if dealer_total < 22:
-        if player_total_1 > dealer_total and player_total_1 < 22:
-            print("Hand 1:", *player_hand)
-            if player_total_1 == 21 and len(player_hand) == 2:
-                money += amount_bet + blackjack_bonus
-                print(blackjack_bonus)
-                print("As a bonus for getting blackjack, you get 1.5x what you bet!")
-            else:
-                money += amount_bet
-            print("Congratulations! You win!")
-        elif player_total_1 < dealer_total:
-            print("So close, but you lost. Maybe next time!")
-            money -= amount_bet
-        elif player_total_1 > 22:
-            print("You bust hand :(.")
-            money -= amount_bet
-        else:
-            print("You tie. Nobody wins on your first hand.")
+    if total < 22:
+        if total == 21 and len(hand) == 2 and len(player_hand_2) == 0 and dealer_total != 21:
+            print("You have blackjack and the dealer doesn't!"
+                  "\nYou get a bonus of 1.5x your original bet!")
+            money += bet + bet/2
+        elif total == dealer_total:
+            print("You tied. Neither of you get any money.")
+        elif total > dealer_total:
+            print("You win!")
+            money += bet
+        elif total < dealer_total:
+            print("So close, but you lost :(. You lose your money")
+            money -= bet
+    elif total > 22:
+        print("You busted, so you lose money :(")
+        money -= bet
 
-        if player_total_2 > 0:
-            if player_total_2 > dealer_total and player_total_2 < 22:
-                print(player_hand_2)
-                print("Hand 2:", *player_hand_2)
-                if player_total_2 == 21 and len(player_hand) == 2:
-                    money += amount_bet_2 + blackjack_bonus
-                else:
-                    money += amount_bet_2
-                print("Congratulations! You win!")
-            elif player_total_2 < dealer_total:
-                print("So close, but you lost. Maybe next time!")
-                money -= amount_bet_2
-            elif player_total_2 > 22:
-                print("You bust on your second hand.")
-                money -= amount_bet_2
-            else:
-                print("You tie. Nobody wins on your second hand.")
-    else:
-        if player_total_1 != 22 and player_total_2 != 22:
-            money += amount_bet
-            if player_total_2 != 0:
-                print("Congratulations! You win on both hands!")
-                money += amount_bet_2
-            else:
-                print("You win!")
-
+    if player_hand_2 != [] and compare_count == 1:
+        print("Current money:", money)
+        compare(player_hand_2, amount_bet_2)
+        return
 
 
     print("Current money:", money)
@@ -358,11 +339,11 @@ def dealer_action():
     if hand_total < 17:
         pick_random_card(dealer_hand)
         dealer_action()
-    elif hand_total >= 22:
-        print("Dealer busts! You win!")
         return
-    else:
-        compare(player_hand)
+    elif hand_total >= 22:
+        print("Dealer busts!")
+
+    compare(player_hand, amount_bet)
 
 
 

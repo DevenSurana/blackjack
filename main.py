@@ -134,12 +134,12 @@ def deal():
     global player_hand
     global dealer_hand
 
-    player_hand.append(deck.pop(6))
-    player_hand.append(deck.pop(18))
+    #player_hand.append(deck.pop(6))
+    #player_hand.append(deck.pop(18))
 
-    #pick_random_card(player_hand)
+    pick_random_card(player_hand)
     pick_random_card(dealer_hand)
-    #pick_random_card(player_hand)
+    pick_random_card(player_hand)
     pick_random_card(dealer_hand)
 
 
@@ -164,7 +164,7 @@ def check_bust(hand):
             return 0
 
         print("You bust! You lose :(.")
-        print("(Your Hand:,", str(*hand)+")")
+        print("(Hand:"," ".join(hand)+")")
         money -= amount_bet
         print("Current money:", money)
 

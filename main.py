@@ -36,12 +36,11 @@ compare_count = 0
 # functions
 def shuffle(suit, number):
     for i in range(0, 6):
-        for i in numbers:
-            deck.append(str(suit[0])+str(i))
-            deck.append(str(suit[1])+str(i))
-            deck.append(str(suit[2])+str(i))
-            deck.append(str(suit[3])+str(i))
+        for number in numbers:
+            for suit in suits:
+                deck.append(number+suit)
 
+    random.shuffle(deck)
     print(deck)
 
 def get_card_value(card):
@@ -105,6 +104,7 @@ def reset():
 
     player_hand = []
     dealer_hand = []
+    deck = []
     is_player_turn = True
 
     amount_bet = 0
@@ -144,10 +144,10 @@ def deal():
     #player_hand.append(deck.pop(6))
     #player_hand.append(deck.pop(18))
 
-    pick_random_card(player_hand)
-    pick_random_card(dealer_hand)
-    pick_random_card(player_hand)
-    pick_random_card(dealer_hand)
+    player_hand.append(deck.pop())
+    dealer_hand.append(deck.pop())
+    player_hand.append(deck.pop())
+    dealer_hand.append(deck.pop())
 
 
 def get_hand_value(hand):

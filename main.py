@@ -121,19 +121,26 @@ def bet():
     global money
     global amount_bet
 
+    has_bet = False
     print("Current money:", money)
-    amount_bet = float(input("How much money would you like to bet?: "))
 
-    if amount_bet > money:
-        print("You don't have that much money! Please try again.")
-        amount_bet = 0
-        bet()
-    elif amount_bet < 0:
-        print("That is a negative number. Please try again with a positive number.")
-    elif amount_bet == 0:
-        print("You cannot bet 0 dollars. Please try again with a positive number.")
-    else:
-        print("Your bet has been accepted.")
+    while not has_bet:
+        amount_bet = input("How much money would you like to bet?: ")
+        try:
+            amount_bet = int(amount_bet)
+            if amount_bet > money:
+                print("You don't have that much money! Please try again.")
+                amount_bet = 0
+                bet()
+            elif amount_bet < 0:
+                print("That is a negative number. Please try again with a positive number.")
+            elif amount_bet == 0:
+                print("You cannot bet 0 dollars. Please try again with a positive number.")
+            else:
+                print("Your bet has been accepted.")
+                has_bet = True
+        except:
+            print("Please enter an integer.")
 
 
 def pick_random_card(hand_to_deal):

@@ -101,6 +101,8 @@ def reset():
     global dealer_hand
     global amount_bet
     global amount_bet_2
+    global compare_count
+    global has_split
 
     player_hand = []
     dealer_hand = []
@@ -111,6 +113,8 @@ def reset():
     amount_bet_2 = 0
 
     compare_count = 0
+
+    has_split = False
 
 
 def bet():

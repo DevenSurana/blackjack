@@ -25,7 +25,6 @@ random_card = ""
 money = 1000
 amount_bet = 0
 amount_bet_2 = 0
-blackjack_bonus = 0
 
 is_player_turn = True
 
@@ -41,8 +40,8 @@ def shuffle(suit, number):
                 deck.append(number+suit)
 
     random.shuffle(deck)
-    print(deck)
 
+    
 def get_card_value(card):
     value = card[:-1]
 
@@ -64,16 +63,12 @@ def play_game():
     global player_hand
     global dealer_hand
     global amount_bet
-    global blackjack_bonus
 
     reset()
     shuffle(suits, numbers)
     deal()
     bet()
 
-    if get_hand_value(player_hand) == 21:
-        blackjack_bonus = amount_bet / 2
-        blackjack_bonus += math.floor(blackjack_bonus)
 
     player_action()
 
@@ -162,14 +157,19 @@ def deal():
 
 
 def get_hand_value(hand):
-    tmp = 0
-    for i in hand:
-        tmp += get_card_value(i)
+    total = 0
+    aces = 0
+    for card in hand:
+        total += get_card_value(card)
 
-    if tmp > 22 and any("A" in item for item in hand):
-        tmp -= 10
+        if card[:-1] == "A":
+            aces += 1
 
-    return tmp
+    while aces > 0 and total > 22:
+        total -= 10
+        aces -= 1
+
+    return total
 
 def check_bust(hand):
     global money
@@ -218,6 +218,13 @@ def player_action():
             print("Amount Bet:", amount_bet)
             print("Hand 2:", *player_hand_2)
             print("Amount Bet:", amount_bet_2)
+            print()
+            print("Dealing extra card to each hand")
+            pick_random_card(player_hand)
+            pick_random_card(player_hand_2)
+
+            print("Hand 1:", *player_hand)
+            print("Hand 2:", *player_hand_2)
             print("\n")
 
             has_split = True

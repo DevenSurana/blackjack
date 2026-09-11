@@ -10,12 +10,9 @@ import time
 
 
 # variables and lists
-cards = [
-    "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", "QH", "KH", "AH",
-    "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "JC", "QC", "KC", "AC",
-    "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S", "JS", "QS", "KS", "AS",
-    "2D", "3D", "4D", "5D", "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD", "AD"
-]
+# variables and lists
+suits = ["♠", "♥", "♦", "♣"]
+numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
 deck = []
 
@@ -37,6 +34,16 @@ dealing_playerhand_1 = True
 compare_count = 0
 
 # functions
+def shuffle(suit, number):
+    for i in range(0, 6):
+        for i in numbers:
+            deck.append(str(suit[0])+str(i))
+            deck.append(str(suit[1])+str(i))
+            deck.append(str(suit[2])+str(i))
+            deck.append(str(suit[3])+str(i))
+
+    print(deck)
+
 def get_card_value(card):
     value = card[:-1]
 
@@ -61,6 +68,7 @@ def play_game():
     global blackjack_bonus
 
     reset()
+    shuffle(suits, numbers)
     deal()
     bet()
 
@@ -97,7 +105,6 @@ def reset():
 
     player_hand = []
     dealer_hand = []
-    deck = cards
     is_player_turn = True
 
     amount_bet = 0

@@ -31,6 +31,7 @@ dealing_playerhand_1 = True
 compare_count = 0
 
 playing = True
+has_split = False
 
 # functions
 def shuffle(suit, number):
@@ -207,97 +208,110 @@ def check_bust(hand):
 
         return -1
 
-has_split = False
 
-def player_action(hand):
+def player_action(hand, bet):
     global player_hand
     global player_hand_2
     global is_player_turn
     global amount_bet
     global amount_bet_2
     global dealing_playerhand_1
-    global has_split
+    #global has_split
 
 
     print("\n")
 
     split()
 
+    stand = False
+    while not stand:
+        print("Current hand:", *hand)
+        print("Total Value:", get_hand_value(hand))
+        print("Amount Bet:", bet)
+        print("\nDealer hand:", *dealer_hand)
+
+
+        action = input("Do you want to hit on your first hand? (y/n): ")
+        if action.lower() == "y":
+            pick_random_card(player_hand)
+        else:
+            print("Moving on to your second hand.")
+
 
 
     #run if we have split
-    if player_hand_2 != []:
+    # if player_hand_2 != []:
 
         #PLAYER HAND 1
-        if dealing_playerhand_1:
-            if get_hand_value(player_hand) < 22:
-                print("PLAYER HAND 1")
-                print("Hand 1:", *player_hand)
-                print("Total value:", get_hand_value(player_hand))
-                print("Amount Bet:", amount_bet)
-                print("\nDealer hand:", dealer_hand[0], "XX \n")
-
-                action = input("Do you want to hit on your first hand? (y/n): ")
-                if action.lower() == "y":
-                    pick_random_card(player_hand)
-                    player_action(player_hand)
-                else:
-                    dealing_playerhand_1 = False
-                    print("Moving on to your second hand.")
-                    player_action(player_hand_2)
-            else:
-                print("PLAYER HAND 1")
-                print("Hand 1:", *player_hand)
-                print("Total value:", get_hand_value(player_hand))
-                print("You have busted on your first hand. Moving on to the second hand.")
-                dealing_playerhand_1 = False
-                player_action(player_hand_2)
-
-        #PLAYER HAND 2
-        elif not dealing_playerhand_1:
-            if get_hand_value(player_hand_2) <22:
-                print("PLAYER HAND 2")
-                print("Hand 2:", *player_hand_2)
-                print("Total value:", get_hand_value(player_hand_2))
-                print("Amount Bet:", amount_bet_2)
-                print("\n Dealer hand:", dealer_hand[0], "XX \n")
-
-                action = input("Do you want to hit on your second hand? (y/n): ")
-                if action.lower() == "y":
-                    pick_random_card(player_hand_2)
-                    player_action(player_hand_2)
-                else:
-                    dealer_action()
-                    is_player_turn = False
-                    return
-            else:
-                print("PLAYER HAND 2")
-                print("Hand 2:", *player_hand_2)
-                print("Total value:", get_hand_value(player_hand_2))
-                print("You have busted on your second hand. Moving on to the dealers turn.")
-                is_player_turn = False
-                dealer_action()
-
-    #run if we have not split
-    else:
-        if check_bust(player_hand) == -1:
-            print()
-            try_again()
-            return
-
-        print("Your hand:", *player_hand)
-        print("Total value:", get_hand_value(player_hand))
-        print("\nDealer hand:", dealer_hand[0], "XX \n")
-
-        action = input("Do you want to hit? (y/n): ")
-        if action.lower() == "y":
-            pick_random_card(player_hand)
-            player_action(player_hand)
-        else:
-            print("\n Ok. It is now the dealers turn.")
-            dealer_action()
-
-            is_player_turn = False
+    #     if dealing_playerhand_1:
+    #         if get_hand_value(player_hand) < 22:
+    #             print("PLAYER HAND 1")
+    #             print("Hand 1:", *player_hand)
+    #             print("Total value:", get_hand_value(player_hand))
+    #             print("Amount Bet:", amount_bet)
+    #             print("\nDealer hand:", dealer_hand[0], "XX \n")
+    #
+    #             action = input("Do you want to hit on your first hand? (y/n): ")
+    #             if action.lower() == "y":
+    #                 pick_random_card(player_hand)
+    #                 player_action(player_hand)
+    #             else:
+    #                 dealing_playerhand_1 = False
+    #                 print("Moving on to your second hand.")
+    #                 player_action(player_hand_2)
+    #         else:
+    #             print("PLAYER HAND 1")
+    #             print("Hand 1:", *player_hand)
+    #             print("Total value:", get_hand_value(player_hand))
+    #             print("You have busted on your first hand. Moving on to the second hand.")
+    #             dealing_playerhand_1 = False
+    #             player_action(player_hand_2)
+    #
+    #     #PLAYER HAND 2
+    #     elif not dealing_playerhand_1:
+    #         if get_hand_value(player_hand_2) <22:
+    #             print("PLAYER HAND 2")
+    #             print("Hand 2:", *player_hand_2)
+    #             print("Total value:", get_hand_value(player_hand_2))
+    #             print("Amount Bet:", amount_bet_2)
+    #             print("\n Dealer hand:", dealer_hand[0], "XX \n")
+    #
+    #             action = input("Do you want to hit on your second hand? (y/n): ")
+    #             if action.lower() == "y":
+    #                 pick_random_card(player_hand_2)
+    #                 player_action(player_hand_2)
+    #             else:
+    #                 dealer_action()
+    #                 is_player_turn = False
+    #                 return
+    #         else:
+    #             print("PLAYER HAND 2")
+    #             print("Hand 2:", *player_hand_2)
+    #             print("Total value:", get_hand_value(player_hand_2))
+    #             print("You have busted on your second hand. Moving on to the dealers turn.")
+    #             is_player_turn = False
+    #             dealer_action()
+    #
+    # #run if we have not split
+    # else:
+    #     if check_bust(player_hand) == -1:
+    #         print()
+    #         try_again()
+    #         return
+    #
+    #     print("Your hand:", *player_hand)
+    #     print("Total value:", get_hand_value(player_hand))
+    #     print("\nDealer hand:", dealer_hand[0], "XX \n")
+    #
+    #     action = input("Do you want to hit? (y/n): ")
+    #     if action.lower() == "y":
+    #         pick_random_card(player_hand)
+    #         player_action(player_hand)
+    #     else:
+    #         print("\n Ok. It is now the dealers turn.")
+    #         dealer_action()
+    #
+    #         is_player_turn = False
 
 def compare(hand, bet):
     global dealer_hand
@@ -382,10 +396,10 @@ while playing == True:
     bet()
 
 
-    player_action(player_hand)
+    player_action(player_hand, amount_bet)
 
     if player_hand_2 != []:
-        player_action(player_hand_2)
+        player_action(player_hand_2, amount_bet_2)
 
     dealer_action()
 

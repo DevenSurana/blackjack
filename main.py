@@ -18,8 +18,6 @@ player_hand = []
 player_hand_2 = []
 dealer_hand = []
 
-random_card = ""
-
 money = 1000
 amount_bet = 0
 amount_bet_2 = 0
@@ -279,22 +277,20 @@ def compare(hand, bet):
     return
 
 
-def dealer_action():
-    global dealer_hand
+def dealer_action(hand):
+    total = get_hand_value(hand)
 
-    print("Dealer hand:", *dealer_hand)
-    print("Total value:", get_hand_value(dealer_hand))
+    while total < 17:
+        total = get_hand_value(hand)
 
-    hand_total = get_hand_value(dealer_hand)
+        print("Dealer hand:", *hand)
+        print("Total value:", total)
 
-    if hand_total < 17:
-        pick_random_card(dealer_hand)
-        dealer_action()
-        return
-    elif hand_total >= 22:
-        print("Dealer busts!")
+        pick_random_card(hand)
 
-    compare(player_hand, amount_bet)
+        if total >= 22:
+            print("Dealer busts!")
+
 
 
 
@@ -311,7 +307,7 @@ while playing == True:
     if player_hand_2 != []:
         player_action(player_hand_2, amount_bet_2)
 
-    dealer_action()
+    dealer_action(dealer_hand)
 
     compare(player_hand, amount_bet)
 

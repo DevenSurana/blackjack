@@ -91,20 +91,6 @@ def split():
             has_split = True
 
 
-def play_game():
-    global player_hand
-    global dealer_hand
-    global amount_bet
-
-    reset()
-    shuffle(suits, numbers)
-    deal()
-    bet()
-
-
-    player_action(player_hand)
-
-
 def try_again():
     global money
 
@@ -388,4 +374,10 @@ def dealer_action():
 
 
 # main
-play_game()
+reset()
+shuffle(suits, numbers)
+deal()
+bet()
+
+
+player_action(player_hand)

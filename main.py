@@ -102,7 +102,7 @@ def play_game():
     bet()
 
 
-    player_action()
+    player_action(player_hand)
 
 
 def try_again():
@@ -222,7 +222,7 @@ def check_bust(hand):
 
 has_split = False
 
-def player_action():
+def player_action(hand):
     global player_hand
     global player_hand_2
     global is_player_turn
@@ -253,18 +253,18 @@ def player_action():
                 action = input("Do you want to hit on your first hand? (y/n): ")
                 if action.lower() == "y":
                     pick_random_card(player_hand)
-                    player_action()
+                    player_action(player_hand)
                 else:
                     dealing_playerhand_1 = False
                     print("Moving on to your second hand.")
-                    player_action()
+                    player_action(player_hand_2)
             else:
                 print("PLAYER HAND 1")
                 print("Hand 1:", *player_hand)
                 print("Total value:", get_hand_value(player_hand))
                 print("You have busted on your first hand. Moving on to the second hand.")
                 dealing_playerhand_1 = False
-                player_action()
+                player_action(player_hand_2)
 
         #PLAYER HAND 2
         elif not dealing_playerhand_1:
@@ -278,7 +278,7 @@ def player_action():
                 action = input("Do you want to hit on your second hand? (y/n): ")
                 if action.lower() == "y":
                     pick_random_card(player_hand_2)
-                    player_action()
+                    player_action(player_hand_2)
                 else:
                     dealer_action()
                     is_player_turn = False
@@ -305,7 +305,7 @@ def player_action():
         action = input("Do you want to hit? (y/n): ")
         if action.lower() == "y":
             pick_random_card(player_hand)
-            player_action()
+            player_action(player_hand)
         else:
             print("\n Ok. It is now the dealers turn.")
             dealer_action()

@@ -198,15 +198,9 @@ def check_bust(hand):
     hand_total = get_hand_value(hand)
 
     if hand_total >= 22:
-        if any("A" in item for item in hand) and hand_total-10 < 22:
-            return 0
-
-        print("You bust! You lose :(.")
-        print("(Hand:"," ".join(hand)+")")
-        money -= amount_bet
-        print("Current money:", money)
-
-        return -1
+        return True
+    else:
+        return False
 
 
 def player_action(hand, bet):
@@ -230,12 +224,15 @@ def player_action(hand, bet):
         print("Amount Bet:", bet)
         print("\nDealer hand:", *dealer_hand)
 
+        if check_bust(hand):
+            print("You have busted. Moving on.")
+            return
 
         action = input("Do you want to hit on your first hand? (y/n): ")
         if action.lower() == "y":
             pick_random_card(player_hand)
         else:
-            print("Moving on to your second hand.")
+            print("Moving on.")
 
 
 

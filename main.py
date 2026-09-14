@@ -59,6 +59,38 @@ def check_split(hand):
     else:
         return False
 
+def split():
+    global has_split
+    global money
+    global amount_bet
+    global amount_bet_2
+
+    if len(player_hand) == 2 and check_split(player_hand) and has_split == False:
+        print("Your hand:", *player_hand)
+        print("Total value:", get_hand_value(player_hand))
+        print("\nDealer hand:", dealer_hand[0], "XX \n")
+        action = input("Do you want to split (hit/stand later)? (y/n): ")
+
+        if action.lower() == "y":
+            player_hand_2.append(player_hand.pop(1))
+            amount_bet_2 = amount_bet
+
+            print("Hand 1:", *player_hand)
+            print("Amount Bet:", amount_bet)
+            print("Hand 2:", *player_hand_2)
+            print("Amount Bet:", amount_bet_2)
+            print()
+            print("Dealing extra card to each hand")
+            pick_random_card(player_hand)
+            pick_random_card(player_hand_2)
+
+            print("Hand 1:", *player_hand)
+            print("Hand 2:", *player_hand_2)
+            print("\n")
+
+            has_split = True
+
+
 def play_game():
     global player_hand
     global dealer_hand
@@ -202,32 +234,9 @@ def player_action():
 
     print("\n")
 
-
-    if len(player_hand) == 2 and check_split(player_hand) and has_split == False:
-        print("Your hand:", *player_hand)
-        print("Total value:", get_hand_value(player_hand))
-        print("\nDealer hand:", dealer_hand[0], "XX \n")
-        action = input("Do you want to split (hit/stand later)? (y/n): ")
+    split()
 
 
-        if action.lower() == "y":
-            player_hand_2.append(player_hand.pop(1))
-            amount_bet_2 = amount_bet
-
-            print("Hand 1:", *player_hand)
-            print("Amount Bet:", amount_bet)
-            print("Hand 2:", *player_hand_2)
-            print("Amount Bet:", amount_bet_2)
-            print()
-            print("Dealing extra card to each hand")
-            pick_random_card(player_hand)
-            pick_random_card(player_hand_2)
-
-            print("Hand 1:", *player_hand)
-            print("Hand 2:", *player_hand_2)
-            print("\n")
-
-            has_split = True
 
     #run if we have split
     if player_hand_2 != []:
@@ -320,23 +329,29 @@ def compare(hand, bet):
     print()
     print("Hand comparing:", *hand)
     print("Amount Bet:", bet)
+    print("Total value:", total)
     print()
     print("Dealer hand:", *dealer_hand)
+    print("Total value:", dealer_total)
     print()
 
     if total < 22:
-        if total == 21 and len(hand) == 2 and len(player_hand_2) == 0 and dealer_total != 21:
-            print("You have blackjack and the dealer doesn't!"
-                  "\nYou get a bonus of 1.5x your original bet!")
-            money += bet + bet/2
-        elif total == dealer_total:
-            print("You tied. Neither of you get any money.")
-        elif total > dealer_total:
-            print("You win!")
+        if dealer_total < 22:
+            if total == 21 and len(hand) == 2 and len(player_hand_2) == 0 and dealer_total != 21:
+                print("You have blackjack and the dealer doesn't!"
+                      "\nYou get a bonus of 1.5x your original bet!")
+                money += bet + bet/2
+            elif total == dealer_total:
+                print("You tied. Neither of you get any money.")
+            elif total > dealer_total:
+                print("You win!")
+                money += bet
+            elif total < dealer_total:
+                print("So close, but you lost :(. You lose your money")
+                money -= bet
+        else:
+            print("The dealer busted, so you win!")
             money += bet
-        elif total < dealer_total:
-            print("So close, but you lost :(. You lose your money")
-            money -= bet
     elif total > 22:
         print("You busted, so you lose money :(")
         money -= bet

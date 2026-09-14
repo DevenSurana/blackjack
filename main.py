@@ -384,6 +384,16 @@ while playing == True:
 
     player_action(player_hand)
 
+    if player_hand_2 != []:
+        player_action(player_hand_2)
+
+    dealer_action()
+
+    compare(player_hand, amount_bet)
+
+    if player_hand_2 != []:
+        compare(player_hand_2, amount_bet_2)
+
     if try_again() == True:
         playing = True
 

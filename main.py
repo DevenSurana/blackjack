@@ -240,9 +240,6 @@ def compare(hand, bet):
     global amount_bet
     global amount_bet_2
     global money
-    global compare_count
-
-    compare_count += 1
 
     total = get_hand_value(hand)
     dealer_total = get_hand_value(dealer_hand)
@@ -277,15 +274,8 @@ def compare(hand, bet):
         print("You busted, so you lose money :(")
         money -= bet
 
-    if player_hand_2 != [] and compare_count == 1:
-        print("Current money:", money)
-        compare(player_hand_2, amount_bet_2)
-        return
-
-
     print("Current money:", money)
 
-    try_again()
     return
 
 

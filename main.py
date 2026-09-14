@@ -4,9 +4,7 @@ __author__ = "Deven Surana"
 
 
 # libraries
-import math
 import random
-import time
 
 
 # variables and lists
@@ -31,6 +29,8 @@ is_player_turn = True
 dealing_playerhand_1 = True
 
 compare_count = 0
+
+playing = True
 
 # functions
 def shuffle(suit, number):
@@ -95,15 +95,16 @@ def try_again():
     global money
 
     if money <= 0:
-        return
+        print("You have lost all of your money.")
+        return False
     else:
         play_again = input("Do you want to play again? (y/n): ")
 
     if play_again == "y":
-        play_game()
+        return True
     else:
         print("You finished with $"+str(money)+". Come back soon!" )
-        quit()
+        return False
 
 
 
@@ -374,10 +375,16 @@ def dealer_action():
 
 
 # main
-reset()
-shuffle(suits, numbers)
-deal()
-bet()
+while playing == True:
+    reset()
+    shuffle(suits, numbers)
+    deal()
+    bet()
 
 
-player_action(player_hand)
+    player_action(player_hand)
+
+    if try_again() == True:
+        playing = True
+
+quit()

@@ -7,29 +7,33 @@ __author__ = "Deven Surana"
 import random
 
 
-# variables and lists
-# variables and lists
-suits = ["♠", "♥", "♦", "♣"]
-numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+# blackjack class
+class blackjack:
+    def __init__(self):
+        # variables and lists
+        self.suits = ["♠", "♥", "♦", "♣"]
+        self.numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+        self.deck = []
 
-deck = []
+        self.player_hand = []
+        self.player_hand_2 = []
+        self.dealer_hand = []
 
-player_hand = []
-player_hand_2 = []
-dealer_hand = []
+        self.money = 1000
+        self.amount_bet = 0
+        self.amount_bet_2 = 0
 
-money = 1000
-amount_bet = 0
-amount_bet_2 = 0
+        self.is_player_turn = True
 
-is_player_turn = True
+        self.dealing_playerhand_1 = True
 
-dealing_playerhand_1 = True
+        self.compare_count = 0
 
-compare_count = 0
+        self.playing = True
+        self.has_split = False
 
-playing = True
-has_split = False
+game = blackjack()
+
 
 # functions
 def shuffle(suit, number):

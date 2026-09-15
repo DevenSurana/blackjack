@@ -34,9 +34,9 @@ has_split = False
 # functions
 def shuffle(suit, number):
     for i in range(0, 6):
-        for number in numbers:
-            for suit in suits:
-                deck.append(number+suit)
+        for n in number:
+            for s in suit:
+                deck.append(n+s)
 
     random.shuffle(deck)
 

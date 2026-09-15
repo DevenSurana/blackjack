@@ -200,6 +200,11 @@ def check_bust(hand):
     else:
         return False
 
+def has_blackjack(hand):
+    if get_hand_value(hand) == hand and len(hand) == 2:
+        return True
+    else:
+        return False
 
 def player_action(hand, bet):
     global player_hand
@@ -210,7 +215,6 @@ def player_action(hand, bet):
     global dealing_playerhand_1
 
     print("\n")
-
 
     stand = False
     while not stand:
@@ -279,7 +283,7 @@ def compare(hand, bet):
 def dealer_action(hand):
     total = get_hand_value(hand)
 
-    if total == 21 and len(hand) == 2:
+    if has_blackjack(hand):
         print("Dealer hand:", *hand)
         print("Dealer has blackjack!")
         return

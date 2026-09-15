@@ -216,6 +216,11 @@ def player_action(hand, bet):
 
     print("\n")
 
+    if has_blackjack(hand):
+        print("You have blackjack! As long as the dealer doesn't, you will win with a bonus!")
+        print("Let's see what the dealer has...")
+        return
+
     stand = False
     while not stand:
         print("Current hand:", *hand)

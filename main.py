@@ -279,6 +279,11 @@ def compare(hand, bet):
 def dealer_action(hand):
     total = get_hand_value(hand)
 
+    if total == 21 and len(hand) == 2:
+        print("Dealer hand:", *hand)
+        print("Dealer has blackjack!")
+        return
+
     while total < 17:
         total = get_hand_value(hand)
 

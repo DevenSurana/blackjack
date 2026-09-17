@@ -236,7 +236,7 @@ def get_hand_value(hand):
         if card[:-1] == "A":
             aces += 1
 
-    while aces > 0 and total > 22:
+    while aces > 0 and total >= 22:
         total -= 10
         aces -= 1
 

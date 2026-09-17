@@ -127,7 +127,7 @@ class Blackjack:
 
             action = input("Do you want to hit? (y/n): ")
             if action.lower() == "y":
-                self.pick_random_card(self.player_hand)
+                self.pick_random_card(self.hand)
             else:
                 print("Moving on.")
                 stand = True

@@ -152,6 +152,8 @@ class Blackjack:
 
             if total >= 22:
                 print("Dealer busts!")
+                print("Dealer hand:", *hand)
+                print("Total value:", total)
 
     def compare(self, hand, bet):
         total = get_hand_value(hand)

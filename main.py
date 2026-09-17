@@ -112,24 +112,25 @@ class Blackjack:
         if has_blackjack(hand):
             print("You have blackjack! As long as the dealer doesn't, you will win with a bonus!")
             print("Let's see what the dealer has...")
-            return
+            quit()
 
         stand = False
         while not stand:
             print("Current hand:", *hand)
             print("Total Value:", get_hand_value(hand))
             print("Amount Bet:", bet)
-            print("\nDealer hand:", *self.dealer_hand)
+            print("\nDealer hand:", *self.dealer_hand[0], "XX")
 
             if check_bust(hand):
                 print("You bust :(. Moving on.")
                 return
 
-            action = input("Do you want to hit on your first hand? (y/n): ")
+            action = input("Do you want to hit? (y/n): ")
             if action.lower() == "y":
                 self.pick_random_card(self.player_hand)
             else:
                 print("Moving on.")
+                stand = True
 
     def dealer_action(self, hand):
         total = get_hand_value(hand)
@@ -210,7 +211,7 @@ def check_split(hand):
         return False
 
 
-def try_again():
+def try_again(money):
     if money <= 0:
         print("You have lost all of your money.")
         return False
@@ -251,7 +252,7 @@ def check_bust(hand):
         return False
 
 def has_blackjack(hand):
-    if get_hand_value(hand) == hand and len(hand) == 2:
+    if get_hand_value(hand) == 21 and len(hand) == 2:
         return True
     else:
         return False
@@ -280,6 +281,6 @@ while playing == True:
     if game.player_hand_2 != []:
         game.compare(game.player_hand_2, game.amount_bet_2)
 
-    playing = try_again()
+    playing = try_again(game.money)
 
 quit()

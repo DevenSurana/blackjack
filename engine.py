@@ -45,7 +45,7 @@ class Blackjack:
         for _ in range(0, 6):
             for n in self.numbers:
                 for s in self.suits:
-                    self.deck.append(n + s)
+                    self.deck.append((n, s))
 
         random.shuffle(self.deck)
 
@@ -77,7 +77,7 @@ class Blackjack:
 
     def split(self):
         if len(self.player_hand) == 2 and check_split(self.player_hand) and self.has_split == False:
-            print("Your hand:", *self.player_hand)
+            print("Your hand:", " ".join(f"{suit}{age}" for suit, age in self.player_hand))
             print("Total value:", get_hand_value(self.player_hand))
             print("\nDealer hand:", self.dealer_hand[0], "XX \n")
             action = input("Do you want to split (hit/stand later)? (y/n): ")
@@ -86,17 +86,17 @@ class Blackjack:
                 self.player_hand_2.append(self.player_hand.pop(1))
                 self.amount_bet_2 = self.amount_bet
 
-                print("Hand 1:", *self.player_hand)
+                print("Hand 1:", " ".join(f"{suit}{age}" for suit, age in self.player_hand))
                 print("Amount Bet:", self.amount_bet)
-                print("Hand 2:", *self.player_hand_2)
+                print("Hand 2:", " ".join(f"{suit}{age}" for suit, age in self.player_hand_2))
                 print("Amount Bet:", self.amount_bet_2)
                 print()
                 print("Dealing extra card to each hand")
                 self.pick_random_card(self.player_hand)
                 self.pick_random_card(self.player_hand_2)
 
-                print("Hand 1:", *self.player_hand)
-                print("Hand 2:", *self.player_hand_2)
+                print("Hand 1:", " ".join(f"{suit}{age}" for suit, age in self.player_hand))
+                print("Hand 2:", " ".join(f"{suit}{age}" for suit, age in self.player_hand_2))
                 print("\n")
 
                 self.has_split = True
@@ -111,10 +111,10 @@ class Blackjack:
 
         stand = False
         while not stand:
-            print("Current hand:", *hand)
+            print("Current hand:", " ".join(f"{suit}{age}" for suit, age in hand))
             print("Total Value:", get_hand_value(hand))
             print("Amount Bet:", bet)
-            print("\nDealer hand:", *self.dealer_hand[0], "XX")
+            print("\nDealer hand:", " ".join(f"{suit}{age}" for suit, age in self.dealer_hand[0]), "XX")
 
             if check_bust(hand):
                 print("You bust :(. Moving on.")
@@ -131,14 +131,14 @@ class Blackjack:
         total = get_hand_value(hand)
 
         if has_blackjack(hand):
-            print("Dealer hand:", *hand)
+            print("Dealer hand:", " ".join(f"{suit}{age}" for suit, age in hand))
             print("Dealer has blackjack!")
             return
 
         while total < 17:
             total = get_hand_value(hand)
 
-            print("Dealer hand:", *hand)
+            print("Dealer hand:", " ".join(f"{suit}{age}" for suit, age in hand))
             print("Total value:", total)
 
             self.pick_random_card(hand)
@@ -147,7 +147,7 @@ class Blackjack:
 
             if total >= 22:
                 print("Dealer busts!")
-                print("Dealer hand:", *hand)
+                print("Dealer hand:", " ".join(f"{suit}{age}" for suit, age in hand))
                 print("Total value:", total)
 
     def compare(self, hand, bet):
@@ -155,11 +155,11 @@ class Blackjack:
         dealer_total = get_hand_value(self.dealer_hand)
 
         print()
-        print("Hand comparing:", *hand)
+        print("Hand comparing:", " ".join(f"{suit}{age}" for suit, age in hand))
         print("Amount Bet:", bet)
         print("Total value:", total)
         print()
-        print("Dealer hand:", *self.dealer_hand)
+        print("Dealer hand:", " ".join(f"{suit}{age}" for suit, age in self.dealer_hand))
         print("Total value:", dealer_total)
         print()
 
@@ -206,7 +206,7 @@ game = Blackjack()
 
 # helper functions
 def get_card_value(card):
-    value = card[:-1]
+    value = card[0]
 
     if value in ["J", "Q", "K"]:
         return 10
@@ -229,7 +229,7 @@ def get_hand_value(hand):
     for card in hand:
         total += get_card_value(card)
 
-        if card[:-1] == "A":
+        if card[0] == "A":
             aces += 1
 
     while aces > 0 and total >= 22:

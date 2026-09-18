@@ -30,6 +30,6 @@ while playing == True:
     if game.player_hand_2 != []:
         game.compare(game.player_hand_2, game.amount_bet_2)
 
-    playing = try_again(game.money)
+    playing = game.try_again(game.money)
 
 quit()

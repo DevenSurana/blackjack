@@ -188,6 +188,19 @@ class Blackjack:
 
         return
 
+    def try_again(self, money):
+        if money <= 0:
+            print("You have lost all of your money.")
+            return False
+        else:
+            play_again = input("Do you want to play again? (y/n): ")
+
+        if play_again == "y":
+            return True
+        else:
+            print("You finished with $" + str(money) + ". Come back soon!")
+            return False
+
 game = Blackjack()
 
 
@@ -207,20 +220,6 @@ def check_split(hand):
     if get_card_value(hand[0]) == get_card_value(hand[1]):
         return True
     else:
-        return False
-
-
-def try_again(money):
-    if money <= 0:
-        print("You have lost all of your money.")
-        return False
-    else:
-        play_again = input("Do you want to play again? (y/n): ")
-
-    if play_again == "y":
-        return True
-    else:
-        print("You finished with $"+str(money)+". Come back soon!" )
         return False
 
 

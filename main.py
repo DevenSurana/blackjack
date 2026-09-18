@@ -8,9 +8,8 @@ from engine import Blackjack
 game = Blackjack()
 
 # main
-playing = True
 
-while playing == True:
+while True:
     game.reset()
     game.shuffle()
     game.deal()
@@ -30,6 +29,7 @@ while playing == True:
     if game.player_hand_2 != []:
         game.compare(game.player_hand_2, game.amount_bet_2)
 
-    playing = game.try_again(game.money)
+    if not game.try_again(game.money):
+        break
 
 quit()
